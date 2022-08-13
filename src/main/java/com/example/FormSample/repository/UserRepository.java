@@ -1,32 +1,31 @@
 package com.example.FormSample.repository;
 
 import com.example.FormSample.entity.User;
-import org.apache.ibatis.annotations.*;
+import com.example.FormSample.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-public interface UserRepository  {
+@Repository
+public class UserRepository  {
 
-    @Delete("delete from user where user_id = #{userId}")
-    void deleteById(Integer userId);
+    @Autowired
+    UserMapper userMapper;
 
-    @Delete({
-            "<script>",
-            "delete FROM user",
-            "where user_id in",
-            "<foreach item=\"item\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">",
-            "#{item}",
-            "</foreach>",
-            "</script>"
-    })
-    void deleteAllById(List<Integer> deleteList);
+    public void deleteById(Integer userId) {
+        userMapper.deleteById(userId);
+    }
 
-    @Select(value = {
-            "select user_id as userId, name, status from user"
-    })
-    List<User> findAll();
+    public void deleteAllById(List<Integer> deleteList) {
+        userMapper.deleteAllById(deleteList);
+    }
 
-    @Insert("insert into `user` (name, status) values (#{name}, #{status})")
-    void save(User user);
+    public List<User> findAll() {
+        return userMapper.findAll();
+    }
+
+    public void save(User user) {
+        userMapper.save(user);
+    }
 }

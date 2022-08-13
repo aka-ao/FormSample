@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Transactional(readOnly = false)
@@ -25,12 +26,11 @@ public class UserController {
     public String user(Model model) {
         Map<Integer, String> statuses = UserStatus.getAllStatus();
 
-        System.out.println("/user");
-
         model.addAttribute("statuses", statuses);
         model.addAttribute("userForm", new UserForm());
         model.addAttribute("deleteForm", new DeleteForm());
-        model.addAttribute("userList",repository.findAll());
+
+        model.addAttribute("userList", repository.findAll());
         return "user";
     }
 
@@ -38,7 +38,7 @@ public class UserController {
     public String registerUser(@ModelAttribute UserForm userForm, RedirectAttributes redirectAttributes) {
         User user = new User();
         user.setName(userForm.getUserName());
-        user.setStatus(userForm.getStatus().getStatusCode());
+        user.setStatus(userForm.getStatus());
         repository.save(user);
         return "redirect:/user";
     }

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class User {
     private Integer userId;
     private String name;
-    private Integer status;
+    private UserStatus status;
 }
