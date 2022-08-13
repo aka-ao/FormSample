@@ -1,6 +1,7 @@
 package com.example.FormSample.controller;
 
 import com.example.FormSample.entity.User;
+import com.example.FormSample.entity.UserStatus;
 import com.example.FormSample.form.DeleteForm;
 import com.example.FormSample.form.UserForm;
 import com.example.FormSample.repository.UserRepository;
@@ -11,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
+import java.util.Map;
 
 @Transactional(readOnly = false)
 @Controller
@@ -22,6 +23,11 @@ public class UserController {
 
     @GetMapping
     public String user(Model model) {
+        Map<Integer, String> statuses = UserStatus.getAllStatus();
+
+        System.out.println("/user");
+
+        model.addAttribute("statuses", statuses);
         model.addAttribute("userForm", new UserForm());
         model.addAttribute("deleteForm", new DeleteForm());
         model.addAttribute("userList",repository.findAll());
@@ -32,22 +38,20 @@ public class UserController {
     public String registerUser(@ModelAttribute UserForm userForm, RedirectAttributes redirectAttributes) {
         User user = new User();
         user.setName(userForm.getUserName());
+        user.setStatus(userForm.getStatus().getStatusCode());
         repository.save(user);
-        redirectAttributes.addAttribute("userList",repository.findAll());
         return "redirect:/user";
     }
 
     @PostMapping("delete")
     public String delete(@RequestParam Integer userId, RedirectAttributes redirectAttributes) {
         repository.deleteById(userId);
-        redirectAttributes.addAttribute("userList",repository.findAll());
         return "redirect:/user";
     }
 
     @PostMapping("deleteAll")
     public String deleteAll(@ModelAttribute DeleteForm deleteForm, RedirectAttributes redirectAttributes) {
         repository.deleteAllById(deleteForm.getDeleteList());
-        redirectAttributes.addAttribute("userList",repository.findAll());
         return "redirect:/user";
     }
 }
