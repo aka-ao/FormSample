@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeHandlers>
-        <typeHandler handler="com.example.FormSample.repository.typeHandler.UserStatusTypeHandler"/>
+        <typeHandler handler="com.example.FormSample.mapper.typeHandler.UserStatusTypeHandler"/>
     </typeHandlers>
 </configuration>

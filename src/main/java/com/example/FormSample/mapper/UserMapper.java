@@ -1,7 +1,7 @@
 package com.example.FormSample.mapper;
 
 import com.example.FormSample.entity.User;
-import com.example.FormSample.repository.typeHandler.UserStatusTypeHandler;
+import com.example.FormSample.mapper.typeHandler.UserStatusTypeHandler;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

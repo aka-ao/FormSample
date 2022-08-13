@@ -4,7 +4,7 @@ import com.example.FormSample.entity.User;
 import com.example.FormSample.entity.UserStatus;
 import com.example.FormSample.form.DeleteForm;
 import com.example.FormSample.form.UserForm;
-import com.example.FormSample.repository.UserRepository;
+import com.example.FormSample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Map;
 
 @Transactional(readOnly = false)
@@ -20,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    UserRepository repository;
+    UserService userService;
 
     @GetMapping
     public String user(Model model) {
@@ -30,7 +29,7 @@ public class UserController {
         model.addAttribute("userForm", new UserForm());
         model.addAttribute("deleteForm", new DeleteForm());
 
-        model.addAttribute("userList", repository.findAll());
+        model.addAttribute("userList", userService.findAll());
         return "user";
     }
 
@@ -39,19 +38,19 @@ public class UserController {
         User user = new User();
         user.setName(userForm.getUserName());
         user.setStatus(userForm.getStatus());
-        repository.save(user);
+        userService.save(user);
         return "redirect:/user";
     }
 
     @PostMapping("delete")
     public String delete(@RequestParam Integer userId, RedirectAttributes redirectAttributes) {
-        repository.deleteById(userId);
+        userService.deleteById(userId);
         return "redirect:/user";
     }
 
     @PostMapping("deleteAll")
     public String deleteAll(@ModelAttribute DeleteForm deleteForm, RedirectAttributes redirectAttributes) {
-        repository.deleteAllById(deleteForm.getDeleteList());
+        userService.deleteAllById(deleteForm.getDeleteList());
         return "redirect:/user";
     }
 }

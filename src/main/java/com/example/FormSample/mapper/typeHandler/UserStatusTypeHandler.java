@@ -1,4 +1,4 @@
-package com.example.FormSample.repository.typeHandler;
+package com.example.FormSample.mapper.typeHandler;
 
 import com.example.FormSample.entity.UserStatus;
 import org.apache.ibatis.type.BaseTypeHandler;
