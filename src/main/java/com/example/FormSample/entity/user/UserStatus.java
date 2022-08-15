@@ -1,4 +1,4 @@
-package com.example.FormSample.entity;
+package com.example.FormSample.entity.user;
 
 import lombok.Getter;
 

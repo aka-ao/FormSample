@@ -1,6 +1,6 @@
 package com.example.FormSample.mapper;
 
-import com.example.FormSample.entity.User;
+import com.example.FormSample.dto.UserDto;
 import com.example.FormSample.mapper.typeHandler.UserStatusTypeHandler;
 import org.apache.ibatis.annotations.*;
 
@@ -23,15 +23,15 @@ public interface UserMapper {
     void deleteAllById(List<Integer> deleteList);
 
     @Select(value = {
-            "select user_id, name, status from user"
+            "select user_id, name, status from `user`"
     })
-    @Results(id="user", value = {
-            @Result(column = "user_id", property = "userId"),
-            @Result(column = "name", property = "name"),
-            @Result(column = "status", property = "status", typeHandler = UserStatusTypeHandler.class)
-    })
-    List<User> findAll();
+    List<UserDto> findAll();
 
-    @Insert("insert into `user` (name, status) values (#{name}, #{status.statusCode})")
-    void save(User user);
+    @Select(value = {
+            "select user_id, name, status from `user` where user_id = #{userId}"
+    })
+    UserDto findById(Integer userId);
+
+    @Insert("insert into `user` (name, status) values (#{name}, #{status})")
+    void save(UserDto user);
 }

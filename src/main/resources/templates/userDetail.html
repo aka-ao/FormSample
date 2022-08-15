@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UserDetail</title>
+</head>
+<body>
+
+<form id="buyProduct" th:action="@{/user/buyProduct}" method="post">
+    <p>商品名</p>
+    <input form="buyProduct" type="text" th:field="${buyProductForm.productName}" />
+    <p>価格</p>
+    <input form="buyProduct" type="number" th:field="${buyProductForm.productPrice}" />
+    <input type="hidden" name="userId" th:value="${userId}" />
+    <input type="submit" value="購入">
+</form>
+
+<p th:if="${buyProductMsg != null}" th:text="${buyProductMsg}"> </p>
+
+</body>
+</html>

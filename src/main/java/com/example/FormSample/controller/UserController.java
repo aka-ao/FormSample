@@ -1,7 +1,9 @@
 package com.example.FormSample.controller;
 
-import com.example.FormSample.entity.User;
-import com.example.FormSample.entity.UserStatus;
+import com.example.FormSample.entity.user.User;
+import com.example.FormSample.entity.user.UserFactory;
+import com.example.FormSample.entity.user.UserStatus;
+import com.example.FormSample.form.BuyProductForm;
 import com.example.FormSample.form.DeleteForm;
 import com.example.FormSample.form.UserForm;
 import com.example.FormSample.service.UserService;
@@ -33,11 +35,17 @@ public class UserController {
         return "user";
     }
 
+    @GetMapping("detail")
+    public String userDetail(@RequestParam Integer userId,@ModelAttribute("buyProductMsg") String buyProductMsg, Model model) {
+        model.addAttribute("buyProductForm", new BuyProductForm());
+        model.addAttribute("userId", userId);
+        model.addAttribute("buyProductMsg", buyProductMsg);
+        return "userDetail";
+    }
+
     @PostMapping("register")
     public String registerUser(@ModelAttribute UserForm userForm, RedirectAttributes redirectAttributes) {
-        User user = new User();
-        user.setName(userForm.getUserName());
-        user.setStatus(userForm.getStatus());
+        User user = UserFactory.exec(null, userForm.getUserName(), userForm.getStatus());
         userService.save(user);
         return "redirect:/user";
     }
@@ -46,6 +54,15 @@ public class UserController {
     public String delete(@RequestParam Integer userId, RedirectAttributes redirectAttributes) {
         userService.deleteById(userId);
         return "redirect:/user";
+    }
+
+    @PostMapping("buyProduct")
+    public String buyProduct(@ModelAttribute BuyProductForm buyProductForm, RedirectAttributes redirectAttributes) {
+        System.out.println("++++"+buyProductForm.getProductName());
+        User user = userService.findById(buyProductForm.getUserId());
+        String res = user.buyProduct(buyProductForm.getProductName(), buyProductForm.getProductPrice());
+        redirectAttributes.addAttribute("buyProductMsg", res);
+        return "redirect:/user/detail?userId="+buyProductForm.getUserId();
     }
 
     @PostMapping("deleteAll")

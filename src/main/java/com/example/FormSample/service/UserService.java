@@ -1,6 +1,7 @@
 package com.example.FormSample.service;
 
-import com.example.FormSample.entity.User;
+import com.example.FormSample.entity.user.User;
+import com.example.FormSample.entity.user.UserFactory;
 import com.example.FormSample.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User findById(Integer userId) {
+        return userRepository.findById(userId);
     }
 
     public void save(User user) {

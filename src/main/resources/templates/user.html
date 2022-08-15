@@ -5,6 +5,7 @@
     <title>User</title>
 </head>
 <body>
+<h1>ユーザ登録</h1>
 <form th:action="@{/user/register}" method="post" th:object="${userForm}">
     <p>ユーザ名</p>
     <input type="text" th:field="*{userName}" />
@@ -13,6 +14,8 @@
     </div>
     <input type="submit" value="登録">
 </form>
+
+<h1>ユーザ一覧</h1>
 
 <div th:if="!${#lists.isEmpty(userList)}">
 <table>
@@ -31,7 +34,9 @@
             <input form="deleteListForm" type="checkbox" th:value="${user.userId}" th:field="${deleteForm.deleteList}">
         </td>
         <td th:text="${user.userId}"></td>
-        <td th:text="${user.name}"></td>
+        <td>
+            <a th:href="@{/user/detail(userId=${user.userId})}" th:text="${user.name}"></a>
+        </td>
         <td th:text="${user.status.name}"></td>
         <td>
             <form th:action="@{/user/delete}" method="post">

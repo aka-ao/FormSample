@@ -1,6 +1,6 @@
 package com.example.FormSample.form;
 
-import com.example.FormSample.entity.UserStatus;
+import com.example.FormSample.entity.user.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
