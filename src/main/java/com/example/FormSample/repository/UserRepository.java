@@ -35,7 +35,6 @@ public class UserRepository  {
     }
 
     public User findById(Integer userId) {
-        System.out.println(userId);
         UserDto userDto = userMapper.findById(userId);
         User user = UserFactory.exec(userDto.getUserId(), userDto.getName(), UserStatus.valueOf(userDto.getStatus()));
         return user;

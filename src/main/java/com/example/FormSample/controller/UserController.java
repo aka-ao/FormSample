@@ -58,7 +58,6 @@ public class UserController {
 
     @PostMapping("buyProduct")
     public String buyProduct(@ModelAttribute BuyProductForm buyProductForm, RedirectAttributes redirectAttributes) {
-        System.out.println("++++"+buyProductForm.getProductName());
         User user = userService.findById(buyProductForm.getUserId());
         String res = user.buyProduct(buyProductForm.getProductName(), buyProductForm.getProductPrice());
         redirectAttributes.addAttribute("buyProductMsg", res);
